@@ -157,7 +157,6 @@ class PlaySoundsViewController: UIViewController, AVAudioPlayerDelegate {
     
     
     @IBAction func playSoundForButton(_ sender: UIButton) {
-        print("Play Sound Button Pressed")
         switch(ButtonType(rawValue: sender.tag)!) {
            case .slow:
                playSound(rate: 0.5)
@@ -177,7 +176,6 @@ class PlaySoundsViewController: UIViewController, AVAudioPlayerDelegate {
     }
 
     @IBAction func stopButtonPressed(_ sender: AnyObject) {
-        print("Stop Audio Button Pressed")
         stopButton.layer.opacity = 1
         stopAudio()
     }
