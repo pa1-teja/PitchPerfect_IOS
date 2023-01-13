@@ -32,11 +32,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     
 
     @IBAction func recordAudio(_ sender: Any) {
-        recordingLabel.text = "Recording in progress..."
-        stopRecordingButton.isEnabled = true
-        stopRecordingButton.layer.opacity = 1
-        recordButton.isEnabled = false
-        recordButton.layer.opacity = 0.5
+        toggleRecordAndStopButtonSettings(statusLabel: recordingLabel, recordBtn: recordButton, stopBtn: stopRecordingButton, isStopBtnEnabled: true, isRecordBtnEnabled: false, text: "Recording in progress...", stopBtnOpacity: 1, recordBtnOpacity: 0.5)
         
         let dirPath = NSSearchPathForDirectoriesInDomains(.documentDirectory,.userDomainMask, true)[0] as String
            let recordingName = "recordedVoice.wav"
@@ -53,16 +49,23 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
            audioRecorder.record()
     }
     
+    func toggleRecordAndStopButtonSettings(statusLabel: UILabel, recordBtn: UIButton, stopBtn: UIButton, isStopBtnEnabled: Bool ,isRecordBtnEnabled: Bool, text: String, stopBtnOpacity: Float, recordBtnOpacity: Float){
+        statusLabel.text = text
+        stopBtn.isEnabled = isStopBtnEnabled
+        stopBtn.layer.opacity = stopBtnOpacity
+        recordBtn.isEnabled = isRecordBtnEnabled
+        recordBtn.layer.opacity = recordBtnOpacity
+    }
+    
     @IBAction func stopAudioRecording(_ sender: Any) {
-        stopRecordingButton.isEnabled = false
-        recordButton.isEnabled = true
-        recordButton.layer.opacity = 1
-        stopRecordingButton.layer.opacity = 0.5
-        recordingLabel.text = "Tap to Record"
+        
+        toggleRecordAndStopButtonSettings(statusLabel: recordingLabel, recordBtn: recordButton, stopBtn: stopRecordingButton, isStopBtnEnabled: false, isRecordBtnEnabled: true, text: "Tap to Record", stopBtnOpacity: 0.5, recordBtnOpacity: 1)
+        
         audioRecorder.stop()
           let audioSession = AVAudioSession.sharedInstance()
           try! audioSession.setActive(false)
     }
+    
     
     
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
